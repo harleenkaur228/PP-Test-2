@@ -85,13 +85,13 @@ let nightmareAlley = {
 
 let ListofMvs = [coda; belfast; dontLookUp; driveMyCar; dune; kingRichard; licoricePizza; nightmareAlley]
 
-let convertRunLengthToHours runLength =
+let minutestoHours runLength =
     let hours = runLength / 60
     let minutes = runLength % 60
     sprintf "%dh %dmin" hours minutes
 
-let movieListWithFormattedRunLength =
+let CovertedListToHours =
     ListofMvs
-    |> List.map (fun movie -> { movie with RunLength = convertRunLengthToHours (int movie.RunLength) })
+    |> List.map (fun movie -> { movie with RunLength = minutestoHours (int movie.RunLength) })
 
-printfn "Movies with Formatted Run Length: %A" movieListWithFormattedRunLength
+printfn "Movies with Formatted Run Length: %A" CovertedListToHours
