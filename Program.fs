@@ -13,7 +13,7 @@ type Director = {
 
 type Movie = {
     Name: string
-    RunLength: string  // Change the type to string
+    RunLength: string  
     Genre: Genre
     Director: Director
     IMDBRating: float
@@ -85,13 +85,36 @@ let nightmareAlley = {
 
 let ListofMvs = [coda; belfast; dontLookUp; driveMyCar; dune; kingRichard; licoricePizza; nightmareAlley]
 
+let OscarWinninProbability =
+    ListofMvs
+    |> List.filter (fun movie -> movie.IMDBRating > 7.4)
+    |> List.sortByDescending (fun movie -> movie.IMDBRating)
+
 let minutestoHours runLength =
     let hours = runLength / 60
     let minutes = runLength % 60
     sprintf "%dh %dmin" hours minutes
 
+let convertRunLength movie =
+    { movie with RunLength = minutestoHours (int movie.RunLength) }
+
+let alterMovieRating movie newRating =
+    { movie with IMDBRating = newRating }
+
 let CovertedListToHours =
     ListofMvs
-    |> List.map (fun movie -> { movie with RunLength = minutestoHours (int movie.RunLength) })
+    |> List.map convertRunLength
 
-printfn "Movies with Formatted Run Length: %A" CovertedListToHours
+let printMovie movie =
+    printfn "Name: %s" movie.Name
+    printfn "Run Length: %s" movie.RunLength
+    printfn "Genre: %A" movie.Genre
+    printfn "Director: %s (%d movies)" movie.Director.Name movie.Director.Movies
+    printfn "IMDB Rating: %.1f" movie.IMDBRating
+    printfn "-------------------------"
+
+printfn "Probable Oscar Winners:"
+OscarWinninProbability |> List.iter printMovie
+
+printfn "\nMovies with Updated Run Length:"
+CovertedListToHours |> List.iter printMovie
