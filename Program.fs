@@ -13,7 +13,7 @@ type Director = {
 
 type Movie = {
     Name: string
-    RunLength: int
+    RunLength: string  // Change the type to string
     Genre: Genre
     Director: Director
     IMDBRating: float
@@ -21,7 +21,7 @@ type Movie = {
 
 let coda = {
     Name = "CODA"
-    RunLength = 111
+    RunLength = "111"
     Genre = Drama
     Director = { Name = "Sian Heder"; Movies = 9 }
     IMDBRating = 8.1
@@ -29,7 +29,7 @@ let coda = {
 
 let belfast = {
     Name = "Belfast"
-    RunLength = 98
+    RunLength = "98"
     Genre = Comedy
     Director = { Name = "Kenneth Branagh"; Movies = 23 }
     IMDBRating = 7.3
@@ -37,7 +37,7 @@ let belfast = {
 
 let dontLookUp = {
     Name = "Don't Look Up"
-    RunLength = 138
+    RunLength = "138"
     Genre = Comedy
     Director = { Name = "Adam McKay"; Movies = 27 }
     IMDBRating = 7.2
@@ -45,7 +45,7 @@ let dontLookUp = {
 
 let driveMyCar = {
     Name = "Drive My Car"
-    RunLength = 179
+    RunLength = "179"
     Genre = Drama
     Director = { Name = "Ryusuke Hamaguchi"; Movies = 16 }
     IMDBRating = 7.6
@@ -53,7 +53,7 @@ let driveMyCar = {
 
 let dune = {
     Name = "Dune"
-    RunLength = 155
+    RunLength = "155"
     Genre = Fantasy
     Director = { Name = "Denis Villeneuve"; Movies = 24 }
     IMDBRating = 8.1
@@ -61,7 +61,7 @@ let dune = {
 
 let kingRichard = {
     Name = "King Richard"
-    RunLength = 144
+    RunLength = "144"
     Genre = Sport
     Director = { Name = "Reinaldo Marcus Green"; Movies = 15 }
     IMDBRating = 7.5
@@ -69,7 +69,7 @@ let kingRichard = {
 
 let licoricePizza = {
     Name = "Licorice Pizza"
-    RunLength = 133
+    RunLength = "133"
     Genre = Comedy
     Director = { Name = "Paul Thomas Anderson"; Movies = 49 }
     IMDBRating = 7.4
@@ -77,18 +77,21 @@ let licoricePizza = {
 
 let nightmareAlley = {
     Name = "Nightmare Alley"
-    RunLength = 150
+    RunLength = "150"
     Genre = Thriller
     Director = { Name = "Guillermo Del Toro"; Movies = 22 }
     IMDBRating = 7.1
 }
 
-
 let ListofMvs = [coda; belfast; dontLookUp; driveMyCar; dune; kingRichard; licoricePizza; nightmareAlley]
 
-let OscarWinningProbability =
-    ListofMvs
-    |> List.filter (fun movie -> movie.IMDBRating > 7.4)
-    |> List.sortByDescending (fun movie -> movie.IMDBRating)
+let convertRunLengthToHours runLength =
+    let hours = runLength / 60
+    let minutes = runLength % 60
+    sprintf "%dh %dmin" hours minutes
 
-printfn "Movies which has probaility to win Oscar: %A" OscarWinningProbability
+let movieListWithFormattedRunLength =
+    ListofMvs
+    |> List.map (fun movie -> { movie with RunLength = convertRunLengthToHours (int movie.RunLength) })
+
+printfn "Movies with Formatted Run Length: %A" movieListWithFormattedRunLength
