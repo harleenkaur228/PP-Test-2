@@ -84,3 +84,11 @@ let nightmareAlley = {
 }
 
 
+let ListofMvs = [coda; belfast; dontLookUp; driveMyCar; dune; kingRichard; licoricePizza; nightmareAlley]
+
+let OscarWinningProbability =
+    ListofMvs
+    |> List.filter (fun movie -> movie.IMDBRating > 7.4)
+    |> List.sortByDescending (fun movie -> movie.IMDBRating)
+
+printfn "Movies which has probaility to win Oscar: %A" OscarWinningProbability
